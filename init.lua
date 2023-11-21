@@ -38,6 +38,10 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now :)
 --]]
 
+-- disable netrw at the very start of your init.lua
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
@@ -219,6 +223,8 @@ require('lazy').setup({
   },
 
   { 'akinsho/toggleterm.nvim', version = "*", config = true },
+
+  { 'nvim-tree/nvim-tree.lua' },
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -616,6 +622,27 @@ require("toggleterm").setup {
 }
 
 vim.keymap.set('t', '<C-[>', [[<C-\><C-n>]])
+
+-- [[ Configure nvim-tree ]]
+-- set termguicolors to enable highlight groups
+vim.opt.termguicolors = true
+
+local function nvim_tree_on_attach(bufnr)
+  local api = require "nvim-tree.api"
+  local function opts(desc)
+    return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+  end
+
+  -- default mappings
+  vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open'))
+  -- custom mappings
+  vim.keymap.set('n', '<leader>t', api.tree.toggle)
+end
+
+require("nvim-tree").setup {
+  on_attach = nvim_tree_on_attach,
+}
+vim.keymap.set('n', '<leader>t', require("nvim-tree.api").tree.toggle)
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
