@@ -100,6 +100,20 @@ require('lazy').setup({
   },
 
   {
+    'mfussenegger/nvim-jdtls',
+    config = function()
+      local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
+      local workspace_dir = '/home/fuad1502/.jdtls-workspace/' .. project_name
+      local config = {
+        cmd = { '/home/fuad1502/jdtls-1.9/bin/jdtls', '-data', workspace_dir },
+        root_dir = vim.fs.dirname(vim.fs.find({ 'gradlew', '.git', 'mvnw' }, { upward = true })[1]),
+      }
+      require('jdtls').start_or_attach(config)
+    end,
+    ft = "java"
+  },
+
+  {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = {
@@ -155,16 +169,6 @@ require('lazy').setup({
       end,
     },
   },
-
-  -- {
-  --   "folke/tokyonight.nvim",
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     vim.cmd [[colorscheme tokyonight-moon]]
-  --   end,
-  --   opts = {},
-  -- },
 
   {
     "neanias/everforest-nvim",
