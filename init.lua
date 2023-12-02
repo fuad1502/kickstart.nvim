@@ -156,14 +156,28 @@ require('lazy').setup({
     },
   },
 
+  -- {
+  --   "folke/tokyonight.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd [[colorscheme tokyonight-moon]]
+  --   end,
+  --   opts = {},
+  -- },
+
   {
-    "folke/tokyonight.nvim",
+    "neanias/everforest-nvim",
+    version = false,
     lazy = false,
-    priority = 1000,
+    priority = 1000, -- make sure to load this before all the other start plugins
+    -- Optional; default configuration will be used if setup isn't called.
     config = function()
-      vim.cmd [[colorscheme tokyonight-moon]]
+      require("everforest").setup({
+        background = "hard"
+      })
+      vim.cmd([[colorscheme everforest]])
     end,
-    opts = {},
   },
 
   {
@@ -173,7 +187,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'tokyonight',
+        theme = 'everforest',
         component_separators = '|',
         section_separators = '',
       },
