@@ -1,43 +1,3 @@
---[[
-
-=====================================================================
-==================== READ THIS BEFORE CONTINUING ====================
-=====================================================================
-
-Kickstart.nvim is *not* a distribution.
-
-Kickstart.nvim is a template for your own configuration.
-  The goal is that you can read every line of code, top-to-bottom, understand
-  what your configuration is doing, and modify it to suit your needs.
-
-  Once you've done that, you should start exploring, configuring and tinkering to
-  explore Neovim!
-
-  If you don't know anything about Lua, I recommend taking some time to read through
-  a guide. One possible example:
-  - https://learnxinyminutes.com/docs/lua/
-
-
-  And then you can explore or search through `:help lua-guide`
-  - https://neovim.io/doc/user/lua-guide.html
-
-
-Kickstart Guide:
-
-I have left several `:help X` comments throughout the init.lua
-You should run that command and read that help section for more information.
-
-In addition, I have some `NOTE:` items throughout the file.
-These are for you, the reader to help understand what is happening. Feel free to delete
-them once you know what you're doing, but they should serve as a guide for when you
-are first encountering a few different constructs in your nvim config.
-
-I hope you enjoy your Neovim journey,
-- TJ
-
-P.S. You can delete this when you're done too. It's your config now :)
---]]
-
 -- disable netrw at the very start of your init.lua
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
@@ -158,19 +118,7 @@ require('lazy').setup({
     },
   },
 
-  {
-    "neanias/everforest-nvim",
-    version = false,
-    lazy = false,
-    priority = 1000, -- make sure to load this before all the other start plugins
-    -- Optional; default configuration will be used if setup isn't called.
-    config = function()
-      require("everforest").setup({
-        background = "hard"
-      })
-      vim.cmd([[colorscheme everforest]])
-    end,
-  },
+  require 'custom.themes.everforest-nvim',
 
   {
     -- Set lualine as statusline
@@ -583,35 +531,11 @@ cmp.setup {
   },
 }
 
--- [[ Configure toggleterm ]]
-require("toggleterm").setup {
-  size = vim.o.columns * 0.4,
-  open_mapping = [[<C-t>]],
-  direction = 'vertical',
-}
+-- [[ toggleterm ]]
+require 'custom.plugins.toggleterm'
 
-vim.keymap.set('t', '<C-[>', [[<C-\><C-n>]])
-
--- [[ Configure nvim-tree ]]
--- set termguicolors to enable highlight groups
-vim.opt.termguicolors = true
-
-local function nvim_tree_on_attach(bufnr)
-  local api = require "nvim-tree.api"
-  local function opts(desc)
-    return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-  end
-
-  -- default mappings
-  vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open'))
-  -- custom mappings
-  vim.keymap.set('n', '<leader>t', api.tree.toggle)
-end
-
-require("nvim-tree").setup {
-  on_attach = nvim_tree_on_attach,
-}
-vim.keymap.set('n', '<leader>t', require("nvim-tree.api").tree.toggle)
+-- [[ nvim-tree ]]
+require 'custom.plugins.nvim-tree'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
