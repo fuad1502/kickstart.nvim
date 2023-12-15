@@ -184,6 +184,8 @@ require('lazy').setup({
 
   require 'custom.plugins.debug',
 
+  require 'custom.plugins.copilot',
+
 }, {})
 
 -- [[ Setting options ]]
