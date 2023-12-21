@@ -531,5 +531,15 @@ require 'custom.plugins.toggleterm'
 -- [[ nvim-tree ]]
 require 'custom.plugins.nvim-tree'
 
+-- [[ suppress warning ]]
+local notify = vim.notify
+vim.notify = function(msg, ...)
+  if msg:match("warning: multiple different client offset_encodings") then
+    return
+  end
+
+  notify(msg, ...)
+end
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
