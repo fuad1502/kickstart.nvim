@@ -15,6 +15,7 @@ local function nvim_tree_on_attach(bufnr)
       -- if it's a file, close the tree
       if node.type == 'file' then
         api.tree.close()
+      end
     end
   end
 
