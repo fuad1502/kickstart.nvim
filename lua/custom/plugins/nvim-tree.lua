@@ -19,6 +19,14 @@ local function nvim_tree_on_attach(bufnr)
     end
   end
 
+  local function call_term_cd()
+    local node = api.tree.get_node_under_cursor()
+    if node then
+      local dir = node.absolute_path
+      require("custom.plugins.toggleterm").term_cd(dir)
+    end
+  end
+
   -- default mappings
   vim.keymap.set('n', 'I', api.tree.toggle_gitignore_filter, opts('Toggle Filter: Git Ignore'))
   vim.keymap.set('n', 'a', api.fs.create, opts('Create File Or Directory'))
@@ -27,6 +35,7 @@ local function nvim_tree_on_attach(bufnr)
   -- custom mappings
   vim.keymap.set('n', '<leader>t', api.tree.toggle)
   vim.keymap.set('n', '<CR>', open_file_and_close_tree, opts('Open'))
+  vim.keymap.set('n', 'T', call_term_cd, opts('Open directory in Terminal'))
 end
 
 require("nvim-tree").setup {
