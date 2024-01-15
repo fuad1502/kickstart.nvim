@@ -21,9 +21,11 @@ local function nvim_tree_on_attach(bufnr)
 
   local function call_term_cd()
     local node = api.tree.get_node_under_cursor()
-    if node then
+    if node.type == 'directory' then
       local dir = node.absolute_path
       require("custom.plugins.toggleterm").term_cd(dir)
+    else
+      print("Not a directory")
     end
   end
 
