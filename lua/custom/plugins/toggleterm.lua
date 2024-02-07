@@ -1,7 +1,6 @@
 require("toggleterm").setup {
-  size = vim.o.columns * 0.4,
   open_mapping = [[<C-t>]],
-  direction = 'vertical',
+  direction = 'float',
 }
 
 -- Go to normal mode keymap
