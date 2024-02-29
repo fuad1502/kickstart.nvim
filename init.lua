@@ -118,7 +118,7 @@ require('lazy').setup({
     },
   },
 
-  require 'custom.themes.everforest-nvim',
+  require 'custom.themes.tokyonight',
 
   {
     -- Set lualine as statusline
@@ -127,7 +127,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'everforest',
+        theme = 'tokyonight',
         component_separators = '|',
         section_separators = '',
       },
@@ -435,8 +435,11 @@ local servers = {
   -- Low level language
   rust_analyzer = {},
   clangd = {},
-  -- Web development
+  -- Backend web development
+  gopls = {},
+  -- Frontend web development
   tsserver = {},
+  cssls = {},
   html = { filetypes = { 'html', 'twig', 'hbs' } },
   -- Scripting
   pyright = {},
