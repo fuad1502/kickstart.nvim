@@ -186,6 +186,8 @@ require('lazy').setup({
 
   require 'custom.plugins.copilot',
 
+  require 'custom.plugins.leap',
+
 }, {})
 
 -- [[ Setting options ]]
@@ -247,6 +249,12 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous dia
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+
+-- Moving in insert mode
+vim.keymap.set('i', '<C-j>', '<Down>')
+vim.keymap.set('i', '<C-k>', '<Up>')
+vim.keymap.set('i', '<C-h>', '<Left>')
+vim.keymap.set('i', '<C-l>', '<Right>')
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
