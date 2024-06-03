@@ -180,11 +180,11 @@ require('lazy').setup({
 
   { 'nvim-tree/nvim-tree.lua' },
 
-  require 'custom.plugins.autoformat',
+  -- require 'custom.plugins.autoformat',
 
-  require 'custom.plugins.debug',
+  -- require 'custom.plugins.debug',
 
-  require 'custom.plugins.copilot',
+  -- require 'custom.plugins.copilot',
 
   require 'custom.plugins.leap',
 
