@@ -118,7 +118,7 @@ require('lazy').setup({
     },
   },
 
-  require 'custom.themes.tokyonight',
+  -- require 'custom.themes.tokyonight',
 
   {
     -- Set lualine as statusline
@@ -127,7 +127,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'tokyonight',
+        -- theme = 'tokyonight',
         component_separators = '|',
         section_separators = '',
       },
@@ -233,6 +233,13 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
+
+-- Put cursor in the middle
+vim.o.so = 999
+
+-- Colors
+vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'Black' })
+vim.api.nvim_set_hl(0, 'PmenuSel', { bg = 'DarkBlue' })
 
 -- [[ Basic Keymaps ]]
 
@@ -442,9 +449,13 @@ require('mason-lspconfig').setup()
 local servers = {
   -- Low level language
   rust_analyzer = {},
+  zls = {
+    single_file_support = true
+  },
   clangd = {},
   -- Backend web development
   gopls = {},
+  csharp_ls = {},
   -- Frontend web development
   tsserver = {},
   cssls = {},
