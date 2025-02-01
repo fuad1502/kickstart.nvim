@@ -35,7 +35,7 @@ local function nvim_tree_on_attach(bufnr)
   vim.keymap.set('n', 'd', api.fs.remove, opts('Delete'))
   vim.keymap.set('n', 'r', api.fs.rename, opts('Rename'))
   -- custom mappings
-  vim.keymap.set('n', '<leader>t', api.tree.toggle)
+  vim.keymap.set('n', '<leader>t', api.tree.toggle, opts('Toggle NvimTree'))
   vim.keymap.set('n', '<CR>', open_file_and_close_tree, opts('Open'))
   vim.keymap.set('n', 'T', call_term_cd, opts('Open directory in Terminal'))
 end
@@ -43,4 +43,4 @@ end
 require("nvim-tree").setup {
   on_attach = nvim_tree_on_attach,
 }
-vim.keymap.set('n', '<leader>t', require("nvim-tree.api").tree.toggle)
+vim.keymap.set('n', '<leader>t', require("nvim-tree.api").tree.toggle, { desc = 'Toggle NvimTree' })

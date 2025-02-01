@@ -118,7 +118,12 @@ require('lazy').setup({
     },
   },
 
-  -- require 'custom.themes.tokyonight',
+  require 'custom.themes.dracula',
+
+  {
+    'xiyaowong/transparent.nvim',
+    lazy = false,
+  },
 
   {
     -- Set lualine as statusline
@@ -127,7 +132,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        -- theme = 'tokyonight',
+        theme = 'dracula',
         component_separators = '|',
         section_separators = '',
       },
@@ -149,7 +154,6 @@ require('lazy').setup({
   -- Fuzzy Finder (files, lsp, etc)
   {
     'nvim-telescope/telescope.nvim',
-    branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
       -- Fuzzy Finder Algorithm which requires local dependencies to be built.
@@ -252,8 +256,9 @@ vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+vim.keymap.set('n', '[d', function() vim.diagnostic.jump({ count = 1 }) end,
+  { desc = 'Go to previous diagnostic message' })
+vim.keymap.set('n', ']d', function() vim.diagnostic.jump({ count = -1 }) end, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
@@ -413,6 +418,9 @@ vim.defer_fn(function()
         },
       },
     },
+    modules = {},
+    ignore_install = {},
+    sync_install = true,
   }
 end, 0)
 
@@ -423,14 +431,14 @@ local on_attach = function(_, bufnr)
 end
 
 -- document existing key chains
-require('which-key').register {
-  ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-  ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-  ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-  ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-  ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-  ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+require('which-key').add {
+  {'<leader>c', desc = '[C]ode'},
+  {'<leader>d', desc = '[D]ocument'},
+  {'<leader>g', desc = '[G]it'},
+  {'<leader>h', desc = 'More git'},
+  {'<leader>r', desc = '[R]ename'},
+  {'<leader>s', desc = '[S]earch'},
+  {'<leader>w', desc = '[W]orkspace'},
 }
 
 -- mason-lspconfig requires that these setup functions are called in this order
@@ -453,11 +461,12 @@ local servers = {
     single_file_support = true
   },
   clangd = {},
+  ocamllsp = {},
   -- Backend web development
   gopls = {},
   csharp_ls = {},
   -- Frontend web development
-  tsserver = {},
+  ts_ls = {},
   cssls = {},
   html = { filetypes = { 'html', 'twig', 'hbs' } },
   -- Scripting
@@ -559,10 +568,14 @@ require 'custom.plugins.toggleterm'
 -- [[ nvim-tree ]]
 require 'custom.plugins.nvim-tree'
 
+-- [[ ocaml ]]
+-- Disable OCaml key mapping
+vim.g.no_ocaml_maps = 1;
+
 -- [[ suppress warning ]]
 local notify = vim.notify
 vim.notify = function(msg, ...)
-  if msg:match("warning: multiple different client offset_encodings") then
+  if msg ~= nil and msg:match("warning: multiple different client offset_encodings") then
     return
   end
 
