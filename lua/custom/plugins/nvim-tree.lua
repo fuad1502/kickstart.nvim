@@ -2,9 +2,9 @@
 vim.opt.termguicolors = true
 
 local function nvim_tree_on_attach(bufnr)
-  local api = require "nvim-tree.api"
+  local api = require 'nvim-tree.api'
   local function opts(desc)
-    return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+    return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
   end
 
   local function open_file_and_close_tree()
@@ -23,24 +23,24 @@ local function nvim_tree_on_attach(bufnr)
     local node = api.tree.get_node_under_cursor()
     if node.type == 'directory' then
       local dir = node.absolute_path
-      require("custom.plugins.toggleterm").term_cd(dir)
+      require('custom.plugins.toggleterm').term_cd(dir)
     else
-      print("Not a directory")
+      print 'Not a directory'
     end
   end
 
   -- default mappings
-  vim.keymap.set('n', 'I', api.tree.toggle_gitignore_filter, opts('Toggle Filter: Git Ignore'))
-  vim.keymap.set('n', 'a', api.fs.create, opts('Create File Or Directory'))
-  vim.keymap.set('n', 'd', api.fs.remove, opts('Delete'))
-  vim.keymap.set('n', 'r', api.fs.rename, opts('Rename'))
+  vim.keymap.set('n', 'I', api.tree.toggle_gitignore_filter, opts 'Toggle Filter: Git Ignore')
+  vim.keymap.set('n', 'a', api.fs.create, opts 'Create File Or Directory')
+  vim.keymap.set('n', 'd', api.fs.remove, opts 'Delete')
+  vim.keymap.set('n', 'r', api.fs.rename, opts 'Rename')
   -- custom mappings
-  vim.keymap.set('n', '<leader>t', api.tree.toggle, opts('Toggle NvimTree'))
-  vim.keymap.set('n', '<CR>', open_file_and_close_tree, opts('Open'))
-  vim.keymap.set('n', 'T', call_term_cd, opts('Open directory in Terminal'))
+  vim.keymap.set('n', '<leader>r', api.tree.toggle, opts 'Toggle NvimTree')
+  vim.keymap.set('n', '<CR>', open_file_and_close_tree, opts 'Open')
+  vim.keymap.set('n', 'T', call_term_cd, opts 'Open directory in Terminal')
 end
 
-require("nvim-tree").setup {
+require('nvim-tree').setup {
   on_attach = nvim_tree_on_attach,
 }
-vim.keymap.set('n', '<leader>t', require("nvim-tree.api").tree.toggle, { desc = 'Toggle NvimTree' })
+vim.keymap.set('n', '<leader>r', require('nvim-tree.api').tree.toggle, { desc = 'Toggle NvimTree' })
