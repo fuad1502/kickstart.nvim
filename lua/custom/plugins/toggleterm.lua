@@ -1,4 +1,4 @@
-require("toggleterm").setup {
+require('toggleterm').setup {
   open_mapping = [[<C-t>]],
   direction = 'float',
 }
@@ -10,7 +10,7 @@ vim.keymap.set('t', '<C-[>', [[<C-\><C-n>]])
 local M = {}
 
 local function term_cd(dir)
-  require("toggleterm").exec(string.format("cd %s", dir) .. " && clear")
+  require('toggleterm').exec(string.format('cd %s', dir) .. ' && clear')
 end
 
 M.term_cd = term_cd

@@ -772,7 +772,7 @@ require('lazy').setup({
     },
   },
 
-  require 'custom.themes.dracula',
+  require 'custom.themes.ayu',
 
   {
     'xiyaowong/transparent.nvim',
