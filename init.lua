@@ -24,6 +24,12 @@ end)
 -- Enable break indent
 vim.o.breakindent = true
 
+-- Set indentation defaults
+vim.o.shiftwidth = 2
+vim.o.tabstop = 2
+vim.o.softtabstop = 2
+vim.o.expandtab = true
+
 -- Save undo history
 vim.o.undofile = true
 
@@ -112,8 +118,6 @@ rtp:prepend(lazypath)
 
 -- [[ Configure plugins ]]
 require('lazy').setup({
-  'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
-
   -- LSP Plugins
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -461,6 +465,7 @@ require('lazy').setup({
         -- See :h blink-cmp-config-keymap for defining your own keymap
         preset = 'default',
 
+        ['Tab'] = false,
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       },
@@ -711,7 +716,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'cpp', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'llvm' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -719,9 +724,9 @@ require('lazy').setup({
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby', 'cpp', 'c' },
+        additional_vim_regex_highlighting = { 'ruby' },
       },
-      indent = { enable = true, disable = { 'ruby', 'cpp', 'c' } },
+      indent = { enable = true, disable = { 'ruby' } },
     },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
@@ -763,11 +768,31 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        ocaml = { 'ocamlformat' },
+        python = { 'black' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
+      },
+      formatters = {
+        ocamlformat = {
+          prepend_args = {
+            '--if-then-else',
+            'vertical',
+            '--break-cases',
+            'fit-or-vertical',
+            '--type-decl',
+            'sparse',
+          },
+        },
+        black = {
+          prepend_args = {
+            '--line-length',
+            '80',
+          },
+        },
       },
     },
   },
@@ -790,6 +815,14 @@ require('lazy').setup({
   require 'custom.plugins.leap',
 
   require 'custom.plugins.gitsigns', -- adds gitsigns recommend keymaps
+
+  {
+    'lervag/vimtex',
+    lazy = false,
+    init = function()
+      vim.g.vimtex_view_method = 'zathura'
+    end,
+  },
 }, {})
 
 -- [[ toggleterm ]]
