@@ -335,6 +335,8 @@ require('lazy').setup({
         },
         clangd = {},
         ocamllsp = {},
+        -- Mobile development
+        kotlin_lsp = {},
         -- Backend web development
         gopls = {},
         csharp_ls = {},
