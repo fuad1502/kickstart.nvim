@@ -387,6 +387,7 @@ require('lazy').setup({
         'stylua', -- Used to format Lua code
         'black', -- Used to format Python code
         'ocamlformat', -- Used to format OCaml code
+        'tree-sitter-cli', -- Needed for nvim-treesitter parser compilation
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
