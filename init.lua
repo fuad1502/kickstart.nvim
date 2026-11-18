@@ -350,6 +350,7 @@ require('lazy').setup({
         cmake = {},
         -- Hardware design
         verible = {},
+        veryl_ls = {},
         -- Documentation
         texlab = {},
 
@@ -731,6 +732,21 @@ require('lazy').setup({
     build = ':TSUpdate',
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     config = function(plugin)
+      -- Add Veryl parser to treesitter
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'TSUpdate',
+        callback = function()
+          require('nvim-treesitter.parsers').veryl = {
+            install_info = {
+              url = 'https://github.com/veryl-lang/tree-sitter-veryl',
+              branch = 'main',
+            },
+          }
+        end,
+      })
+      -- Trigger it immediately to register the parser for the current session
+      vim.api.nvim_exec_autocmds('User', { pattern = 'TSUpdate' })
+
       local treesitter = require 'nvim-treesitter'
       treesitter.setup()
 
@@ -904,6 +920,11 @@ require 'custom.plugins.nvim-tree'
 -- [[ ocaml ]]
 -- Disable OCaml key mapping
 vim.g.no_ocaml_maps = 1
+
+-- [[ veryl_ls ]]
+vim.filetype.add {
+  extension = { veryl = 'veryl' },
+}
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
